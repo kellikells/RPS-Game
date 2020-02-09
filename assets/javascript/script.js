@@ -1,8 +1,4 @@
 
-
-
-
-
 // --- my app's firebase configuration
 var config = {
     apiKey: "AIzaSyCdYYUQlhAMk9Hpb9fs9RrgqWNcxeKnMmg",
@@ -16,6 +12,9 @@ var config = {
 
 // --- initializing firebase --------
 firebase.initializeApp(config);
+
+
+
 
 // ============= SET INITIAL VALUES ===================
 // ----------------------------------------------------
@@ -75,14 +74,19 @@ $("#playButton").on("click", function (event) {
 
 // ============== FUNCTION: game buttons ==================
 
+var letter;
 
-
-$("#work").on("click", function() {
-    var letter = $(this).attr("data-value");
+$("img").on("click", function () {
+    letter = $(this).attr("data-value");
     console.log(letter);
+   
 })
 
-
+$("#selection").on("click", function () {
+    letter = $(this).attr("data-value");
+    console.log(letter);
+   
+})
 
 
 
@@ -114,9 +118,9 @@ database.ref().on("value", function (snapshot) {
     console.log(sv.p1wins);
     console.log(sv.p2wins);
 
-    
 
-}, function(errorObject) {
+
+}, function (errorObject) {
     console.log("Errors handled: " + errorObject.code);
 });
 
