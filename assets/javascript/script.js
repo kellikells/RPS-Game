@@ -74,9 +74,14 @@ $("#playButton").on("click", function (event) {
 
 
 // ============== FUNCTION: game buttons ==================
-function rock() {
 
-}
+
+
+$("#work").on("click", function() {
+    var letter = $(this).attr("data-value");
+    console.log(letter);
+})
+
 
 
 
