@@ -45,9 +45,9 @@
 
         <!-- rock paper scissors buttons -->
         <div id="playButtonWrapper">
-            <!-- <button type="button" data-value="r" id="selection">Rock</button>
-            <button type="button" data-value="p" id="selection">Paper</button>
-            <button type="button" data-value="s" id="selection">Scissors</button> -->
+            <!-- <button type="button" data-value="r" class="selection">Rock</button>
+            <button type="button" data-value="p" class="selection">Paper</button>
+            <button type="button" data-value="s" class="selection">Scissors</button> -->
 
             <img src="assets/images/rock.png" alt="rock" data-value="r" onclick="pChoice()" />
             <img src="assets/images/paper.png" alt="paper" data-value="p" onclick="pChoice()" />
@@ -60,14 +60,14 @@
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
-                        <th scope="col">User Score:</th>
-                        <th scope="col">Opponent Score:</th>
+                        <th scope="col" id="p1Score"></th>
+                        <th scope="col" id="p2Score"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td id="p1wins"></td>
+                        <td id="p2wins"></td>
                     </tr>
                 </tbody>
             </table>
