@@ -156,10 +156,6 @@ $(document).ready(function () {
             console.log("sv.p2wins: " + sv.p2wins);
             console.log("sv.ties: " + sv.ties);
 
-
-
-
-
             // ========= update HTML ============
 
             $("#p1Score").text(sv.p1name + " score:");

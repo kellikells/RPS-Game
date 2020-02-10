@@ -14,8 +14,7 @@ $(document).ready(function () {
     // --- initializing firebase --------
     firebase.initializeApp(config);
 
-    // ============= SET INITIAL VALUES ===================
-    // ----------------------------------------------------
+    // ===================================================== SET INITIAL VALUES ===================
     // --- key properties for firebase
     var p1name = "";
     var p2name = "";
@@ -30,9 +29,8 @@ $(document).ready(function () {
 
     console.log("database.ref(): " + database.ref());
 
-    // ============ FUNCTION: CLICK 'PLAY' BUTTON ============
-    //               setting username as p1 or p2
-    // ------------------------------------------------------
+   // =====================================================  FUNCTION: CLICK 'PLAY' BUTTON ============
+    //                                                       setting username as p1 or p2
 
     $("#playButton").on("click", function (event) {
 
@@ -40,9 +38,9 @@ $(document).ready(function () {
 
         var opponentExists;
 
-        // ---- Checking to see if there is an opponent 
+        // -------------- Checking to see if there is an opponent 
         // ---- (purpose: if the user is p1 or p2 & if app has to set 'keys' to database)
-        // ==================================================
+
         database.ref().once('value')
             .then(function (snapshot) {
                 opponentExists = snapshot.exists();   //if this is true, then a player already exist
@@ -81,8 +79,8 @@ $(document).ready(function () {
 
 
 
-    // ========= FUNCTION : RPS logic ==============
-    // --------------------------------------------
+// ===================================================== FUNCTION : RPS logic ==============
+
     function gamePlay() {
 
         if ((secondChoice === "r") && (firstChocie === "p")) {
@@ -97,8 +95,8 @@ $(document).ready(function () {
 
 
 
-    // ============== FUNCTION: game buttons ==================
-    // ------------------------------------------------------
+  // =====================================================  FUNCTION: game buttons ==================
+
     var choiceExists;
     var letter;
 
@@ -134,9 +132,8 @@ $(document).ready(function () {
             });
     });//(selection on click)
 
-  // ======= FIREBASE WATCHER :.on("value") ==============
-  //        when values change, HTML updates
-  // ----------------------------------------------------
+// =====================================================  FIREBASE WATCHER :.on("value") ==============
+  //                                                     when values change, HTML updates
     function firebaseWatcher() {
         database.ref().on("value", function (snapshot) {
 
@@ -152,10 +149,6 @@ $(document).ready(function () {
             console.log("sv.p1wins: " + sv.p1wins);
             console.log("sv.p2wins: " + sv.p2wins);
             console.log("sv.ties: " + sv.ties);
-
-
-        
-
 
             // ========= update HTML ============
 
