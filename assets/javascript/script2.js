@@ -96,7 +96,7 @@ $(document).ready(function () {
         // (secondChoice === firstChoice) {
         //     ties++;
         // } else if (secondChoice )
-    }
+    });
 
 
 
@@ -173,4 +173,4 @@ $(document).ready(function () {
         });   //database.ref()
     }   //function firebaseWatcher
 
-});  //document.ready
+  //document.ready
