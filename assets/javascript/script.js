@@ -14,7 +14,6 @@ $(document).ready(function () {
     // --- initializing firebase --------
     firebase.initializeApp(config);
 
-
     // ============= SET INITIAL VALUES ===================
     // ----------------------------------------------------
     // --- key properties for firebase
@@ -24,15 +23,15 @@ $(document).ready(function () {
     var secondChoice = "";
     var p1wins = 0;
     var p2wins = 0;
+    var ties= 0;
 
     // Get a reference to the database service
     var database = firebase.database();
 
     console.log("database.ref(): " + database.ref());
 
-
     // ============ FUNCTION: CLICK 'PLAY' BUTTON ============
-    //                   setting username 
+    //               setting username as p1 or p2
     // ------------------------------------------------------
 
     $("#playButton").on("click", function (event) {
@@ -56,35 +55,42 @@ $(document).ready(function () {
                     database.ref().update({             //updating database
                         p2name: p2name
                     });
-                    //other player has already set keys to the database => skip step to 'set' keys
+                    // --- other player has already set keys to the database 
+                    // ----=> skip step to 'set' keys
                     firebaseWatcher();
                 }
                 else {
                     // --- username input 
                     p1name = $("#p-name").val().trim();
 
-                    // --- setting these to firebase
+                    // --- setting key properties to firebase
                     database.ref().set({
                         p1name: p1name,
                         p2name: p2name,
                         firstChoice: firstChoice,
                         secondChoice: secondChoice,
                         p1wins: p1wins,
-                        p2wins: p2wins
+                        p2wins: p2wins,
+                        ties: ties
                     });
                     console.log("p1name: " + p1name);
                     firebaseWatcher();
                 }
             });
-    });//playButton on click 
+    });//(playButton on click )
 
 
 
-
+    // ========= FUNCTION : RPS logic ==============
+    // --------------------------------------------
+    function gamePlay() {
+        if secondChoice === 
+    }
 
 
 
     // ============== FUNCTION: game buttons ==================
+    // ------------------------------------------------------
     var choiceExists;
     var letter;
 
@@ -118,23 +124,10 @@ $(document).ready(function () {
                     });
                 }
             });
-    });
+    });//(selection on click)
 
-
-
-
-
-
-    //========================= GAME LOGIC =========================
-    // function gamePlay() {
-    //     $(this).snapshot.val().firstChoice 
-    // }
-
-
-
-
-
-    // ======= FIREBASE WATCHER :.on("value") ==============
+  // ======= FIREBASE WATCHER :.on("value") ==============
+  // ----------------------------------------------------
     function firebaseWatcher() {
         database.ref().on("value", function (snapshot) {
 
@@ -149,6 +142,10 @@ $(document).ready(function () {
             console.log("sv.secondChoice: " + sv.secondChoice);
             console.log("sv.p1wins: " + sv.p1wins);
             console.log("sv.p2wins: " + sv.p2wins);
+            console.log("sv.ties: " + sv.ties);
+
+
+        
 
 
             // ========= update HTML ============
@@ -157,6 +154,7 @@ $(document).ready(function () {
             $("#p2Score").text(sv.p2name + " score:");
             $("#p1wins").text(sv.p1wins);
             $("#p2wins").text(sv.p2wins);
+            $("#ties").text(sv.ties);
 
         }, function (errorObject) {
             console.log("Errors handled: " + errorObject.code);
