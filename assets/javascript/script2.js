@@ -23,7 +23,7 @@ $(document).ready(function () {
     var secondChoice = "";
     var p1wins = 0;
     var p2wins = 0;
-    var ties= 0;
+    var ties = 0;
 
     // Get a reference to the database service
     var database = firebase.database();
@@ -40,8 +40,9 @@ $(document).ready(function () {
 
         var opponentExists;
 
+
         // ---- Checking to see if there is an opponent 
-        // ---- (purpose: if the user is p1 or p2 & if app has to set 'keys' to database)
+        // ---- purpose: if the user is p1 or p2 & if app has to set 'keys' to database
         // ==================================================
         database.ref().once('value')
             .then(function (snapshot) {
@@ -50,6 +51,7 @@ $(document).ready(function () {
 
                 if (opponentExists) {
                     p2name = $("#p-name").val().trim();
+                    p2name.attr("score", "0");
                     console.log("user is p2name: " + p2name);
 
                     database.ref().update({             //updating database
@@ -62,6 +64,7 @@ $(document).ready(function () {
                 else {
                     // --- username input 
                     p1name = $("#p-name").val().trim();
+                    p1name.attr("score", "0");
 
                     // --- setting key properties to firebase
                     database.ref().set({
@@ -81,15 +84,15 @@ $(document).ready(function () {
 
 
 
-    // ========= FUNCTION : RPS logic ==============
-    // --------------------------------------------
-    function gamePlay() {
+    // // ========= FUNCTION : RPS logic ==============
+    // // --------------------------------------------
+    // function gamePlay() {
+    
+    //     if ((secondChoice === "r") && (firstChoice === "p")) {
+    //         thisScore= ($(this).score)
+    //     }
 
-        if ((secondChoice === "r") && (firstChocie === "p")) {
 
-        }
-        
-        
         // (secondChoice === firstChoice) {
         //     ties++;
         // } else if (secondChoice )
@@ -134,9 +137,9 @@ $(document).ready(function () {
             });
     });//(selection on click)
 
-  // ======= FIREBASE WATCHER :.on("value") ==============
-  //        when values change, HTML updates
-  // ----------------------------------------------------
+    // ======= FIREBASE WATCHER :.on("value") ==============
+    //        when values change, HTML updates
+    // ----------------------------------------------------
     function firebaseWatcher() {
         database.ref().on("value", function (snapshot) {
 
@@ -154,7 +157,7 @@ $(document).ready(function () {
             console.log("sv.ties: " + sv.ties);
 
 
-        
+
 
 
             // ========= update HTML ============
