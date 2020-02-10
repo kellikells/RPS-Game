@@ -15,15 +15,13 @@ $(document).ready(function () {
     firebase.initializeApp(config);
 
 
-
-
     // ============= SET INITIAL VALUES ===================
     // ----------------------------------------------------
     // --- key properties for firebase
     var p1name = "";
     var p2name = "";
-    var p1choice = "";
-    var p2choice = "";
+    var firstChoice = "";
+    var secondChoice = "";
     var p1wins = 0;
     var p2wins = 0;
 
@@ -33,12 +31,8 @@ $(document).ready(function () {
     console.log("database.ref(): " + database.ref());
 
 
-
-
-    // =========== FIREBASE WATCHER
-
-
     // ============ FUNCTION: CLICK 'PLAY' BUTTON ============
+    //                   setting username 
     // ------------------------------------------------------
 
     $("#playButton").on("click", function (event) {
@@ -64,7 +58,6 @@ $(document).ready(function () {
                     });
                     //other player has already set keys to the database => skip step to 'set' keys
                     firebaseWatcher();
-
                 }
                 else {
                     // --- username input 
@@ -74,19 +67,17 @@ $(document).ready(function () {
                     database.ref().set({
                         p1name: p1name,
                         p2name: p2name,
-                        p1choice: p1choice,
-                        p2choice: p2choice,
+                        firstChoice: firstChoice,
+                        secondChoice: secondChoice,
                         p1wins: p1wins,
                         p2wins: p2wins
                     });
                     console.log("p1name: " + p1name);
-
+                    firebaseWatcher();
                 }
-            });     //function(snapshot)
+            });
+    });//playButton on click 
 
-
-
-    });     //playButton on click 
 
 
 
@@ -94,20 +85,40 @@ $(document).ready(function () {
 
 
     // ============== FUNCTION: game buttons ==================
-
+    var choiceExists;
     var letter;
 
-    $("img").on("click", function () {
+    $(".selection").on("click", function () {
         letter = $(this).attr("data-value");
         console.log("letter: " + letter);
 
-    })
+        // if opponent hasn't clicked yet => user's letter is firstChocie 
+        //else user's letter = secondChoice
 
-    // $("#selection").on("click", function () {
-    //     letter = $(this).attr("data-value");
-    //     console.log(letter);
+        database.ref().once('value')
+            .then(function (snapshot) {
+                choiceExists = snapshot.val().firstChoice.exists();   //if this is true, then a player already exist
+                console.log("choiceExists: " + choiceExists);
 
-    // })
+                if (choiceExists) {
+                    letter = secondChoice;
+                    console.log("user is the second choice: " + secondChoice + "and opponent is firstChoice: " + firstChoice);
+
+                    database.ref().update({             //updating database
+                        secondChoice: secondChoice
+                    });
+                    //other player has already set keys to the database => skip step to 'set' keys
+                    firebaseWatcher();
+                } else {
+                    letter = firstChoice;
+                    console.log("user is the firstChoice: " + firstChoice);
+
+                    database.ref().update({
+                        firstChoice: firstChoice
+                    });
+                }
+            });
+    });
 
 
 
@@ -116,7 +127,7 @@ $(document).ready(function () {
 
     //========================= GAME LOGIC =========================
     // function gamePlay() {
-    //     $(this).snapshot.val().p1choice 
+    //     $(this).snapshot.val().firstChoice 
     // }
 
 
@@ -134,20 +145,22 @@ $(document).ready(function () {
             // this is everything from the snapshot of the database 
             console.log("sv.p1name: " + sv.p1name);
             console.log("sv.p2name: " + sv.p2name);
-            console.log("sv.p1choice: " + sv.p1choice);
-            console.log("sv.p2choice: " + sv.p2choice);
+            console.log("sv.firstChoice: " + sv.firstChoice);
+            console.log("sv.secondChoice: " + sv.secondChoice);
             console.log("sv.p1wins: " + sv.p1wins);
             console.log("sv.p2wins: " + sv.p2wins);
 
 
+            // ========= update HTML ============
+
             $("#p1Score").text(sv.p1name + " score:");
             $("#p2Score").text(sv.p2name + " score:");
-
+            $("#p1wins").text(sv.p1wins);
+            $("#p2wins").text(sv.p2wins);
 
         }, function (errorObject) {
             console.log("Errors handled: " + errorObject.code);
-        });
-    }       //function firebaseWatcher
+        });   //database.ref()
+    }   //function firebaseWatcher
 
-
-});     //document.ready
+});  //document.ready
